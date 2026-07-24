@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYS-SMP | Servidor de Minecraft</title>
+    <!-- Fuente moderna estilo Gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Configuración de imagen de fondo adaptable */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #0d1219; /* Color de respaldo mientras carga la imagen */
+            
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .card {
+            background: rgba(22, 32, 45, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- Menú de Navegación Superior --- */
+        .top-nav {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 8px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+            color: #2ecc71;
+            transform: translateY(-2px);
+        }
+
+        /* --- Estilos del Badge Estático --- */
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #2ecc71, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: #a0aec0;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-label {
+            color: #718096;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #e2e8f0;
+            word-break: break-all;
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: #2ecc71;
+            color: #000;
+        }
+
+        .btn-main {
+            width: 100%;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: block;
+            text-decoration: none;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .note {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Botones Superiores de Navegación -->
+        <nav class="top-nav">
+            <a href="#recuerdos" class="nav-btn">📸 Recuerdos</a>
+            <a href="#eventos" class="nav-btn">📅 Eventos</a>
+            <a href="#avances" class="nav-btn">🚀 Avances</a>
+            <a href="#ubicaciones" class="nav-btn">📍 Ubicaciones</a>
+        </nav>
+
+        <!-- Badge Informativo -->
+        <span class="badge">🎮 Servidor Bedrock / Java</span>
+
+        <h1>SYS-SMP</h1>
+        <p class="subtitle">¡Únete a nuestro servidor de Minecraft!</p>
+
+        <!-- Dirección IP -->
+        <div class="info-box">
+            <div style="text-align: left;">
+                <div class="info-label">IP del Servidor</div>
+                <div class="info-value" id="ip-text">SYS-SMP.aternos.me</div>
+            </div>
+            <button class="btn-action" onclick="copiarTexto('ip-text', this)">Copiar</button>
+        </div>
+
+        <!-- Puerto -->
+        <div class="info-box">
+            <div style="text-align: left;">
+                <div class="info-label">Puerto</div>
+                <div class="info-value" id="port-text">37202</div>
+            </div>
+            <button class="btn-action" onclick="copiarTexto('port-text', this)">Copiar</button>
+        </div>
+
+        <!-- Botón para añadir en Bedrock / Abrir Minecraft -->
+        <a id="btn-bedrock" href="minecraft://?addExternalServer=SYS-SMP|SYS-SMP.aternos.me:37202" class="btn-main">
+            🎮 Abrir en Minecraft (Bedrock)
+        </a>
+
+        <p class="note">* El enlace de apertura directa funciona en dispositivos con Minecraft Bedrock / Móvil / Windows 10/11.</p>
+    </div>
+
+    <script>
+        // --- Selección aleatoria de fondo ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const numeroAleatorio = Math.floor(Math.random() * 5) + 1;
+            const rutaImagen = `imgfondo/${numeroAleatorio}.jpg`;
+            
+            document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${rutaImagen}')`;
+        });
+
+        // --- Función para copiar IP / Puerto ---
+        function copiarTexto(elementId, btn) {
+            const texto = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                const textoOriginal = btn.innerText;
+                btn.innerText = '¡Copiado!';
+                btn.style.background = '#2ecc71';
+                btn.style.color = '#000';
+
+                setTimeout(() => {
+                    btn.innerText = textoOriginal;
+                    btn.style.background = 'rgba(255, 255, 255, 0.08)';
+                    btn.style.color = '#fff';
+                }, 2000);
+            }).catch(err => {
+                alert('No se pudo copiar: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
