@@ -11,6 +11,19 @@ const listaMiembros = [
         descripcion: "Jugador enfocado en  decoracion y recolección de recursos para la comunidad.",
         experiencias: "miembro destacado en la construcción de estructuras y paisajes."
     },
+    {
+        id: "pato",
+        gamertag: "@GAMERLULI777",
+        nombreReal: "JULIANO",
+        rango: "👑 Admin",
+        tiempoMiembro: "Hace 5 años",
+        tiempoJuego: "7 años en Minecraft / 2 en CITYSPOKY",
+        expertoEn: "⚡ Construcción y recolectar materiales",
+        foto: "fotos/juliano.jpg",
+        descripcion: "Jugador enfocado en construcción a grandes alturas, experiencia básica en redstone y técnico.",
+        experiencias: "Miembro destacado por participar en todos los eventos y mano izquierda del admin."
+   },
+    
    /* 👇 COPIAS Y PEGAS ESTE BLOQUE AL FINAL Y CAMBIAS SUS DATOS
     {
         id: "pedro_craft",
