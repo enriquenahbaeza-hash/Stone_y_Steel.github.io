@@ -167,6 +167,28 @@
             box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
         }
 
+        /* --- Estilo para el botón de Discord --- */
+        .btn-discord {
+            width: 100%;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: block;
+            text-decoration: none;
+        }
+
+        .btn-discord:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(88, 101, 242, 0.4);
+        }
+
         .note {
             font-size: 0.75rem;
             color: #718096;
@@ -212,6 +234,11 @@
         <!-- Botón para añadir en Bedrock / Abrir Minecraft -->
         <a id="btn-bedrock" href="minecraft://?addExternalServer=SYS-SMP|SYS-SMP.aternos.me:37202" class="btn-main">
             🎮 Abrir en Minecraft (Bedrock)
+        </a>
+
+        <!-- Botón Directo a Discord -->
+        <a href="https://discord.gg/UgtZx6xpUv" target="_blank" rel="noopener noreferrer" class="btn-discord">
+            💬 Unirse al Discord Oficial
         </a>
 
         <p class="note">* El enlace de apertura directa funciona en dispositivos con Minecraft Bedrock / Móvil / Windows 10/11.</p>
