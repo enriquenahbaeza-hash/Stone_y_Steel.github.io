@@ -15,13 +15,11 @@
         }
 
         body {
-            /* Configuración de imagen de fondo adaptable */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-color: #0d1219; /* Color de respaldo mientras carga la imagen */
-            
+            background-color: #0d1219;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -31,7 +29,113 @@
             transition: background-image 0.5s ease-in-out;
         }
 
+        /* --- OVERLAY DE LOGIN --- */
+        #authOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 18, 25, 0.92);
+            backdrop-filter: blur(16px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: rgba(22, 32, 45, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 35px 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            text-align: center;
+        }
+
+        .auth-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #2ecc71, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-card p {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .error-msg {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* --- TARJETA PRINCIPAL (PROTEGIDA) --- */
         .card {
+            position: relative;
             background: rgba(22, 32, 45, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -41,6 +145,48 @@
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            display: none; /* Se activa tras login */
+        }
+
+        /* --- MINI BANNER DE SESIÓN (ESTILO COMPACTO & MINIMALISTA) --- */
+        .user-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 4px 6px 4px 12px;
+            margin-bottom: 20px;
+            font-size: 0.78rem;
+            color: #a0aec0;
+            backdrop-filter: blur(4px);
+        }
+
+        .user-pill strong {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+
+        .btn-logout-mini {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-logout-mini:hover {
+            background: #ef4444;
+            color: #fff;
+            transform: scale(1.1);
         }
 
         /* --- Menú de Navegación Superior --- */
@@ -76,7 +222,6 @@
             transform: translateY(-2px);
         }
 
-        /* --- Estilos del Badge Estático --- */
         .badge {
             padding: 6px 14px;
             border-radius: 20px;
@@ -167,7 +312,6 @@
             box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
         }
 
-        /* --- Estilo para el botón de Discord --- */
         .btn-discord {
             width: 100%;
             background: linear-gradient(135deg, #5865F2, #4752C4);
@@ -189,7 +333,6 @@
             box-shadow: 0 10px 20px rgba(88, 101, 242, 0.4);
         }
 
-        /* --- Estilo para el botón de WhatsApp --- */
         .btn-whatsapp {
             width: 100%;
             background: linear-gradient(135deg, #25D366, #128C7E);
@@ -220,7 +363,39 @@
 </head>
 <body>
 
-    <div class="card">
+    <!-- OVERLAY DE INICIO DE SESIÓN -->
+    <div id="authOverlay">
+        <div class="auth-card">
+            <h2>SYS-SMP</h2>
+            <p>Acceso restringido a miembros</p>
+
+            <div id="errorBox" class="error-msg"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuario de Minecraft</label>
+                    <input type="text" id="username" placeholder="Ej. Steve_123" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="secCode">Código de acceso</label>
+                    <input type="password" id="secCode" placeholder="••••••••" required />
+                </div>
+
+                <button type="submit" class="btn-submit">Ingresar al Servidor</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TARJETA PRINCIPAL (SOLO VISIBLE CON LOGIN) -->
+    <div class="card" id="protectedCard">
+        
+        <!-- Estado de Sesión Compacto -->
+        <div class="user-pill">
+            <span>Jugador: <strong id="userDisplay">-</strong></span>
+            <button class="btn-logout-mini" onclick="switchUser()" title="Cerrar sesión">✕</button>
+        </div>
+
         <!-- Botones Superiores de Navegación -->
         <nav class="top-nav">
             <a href="#recuerdos" class="nav-btn">📸 Recuerdos</a>
@@ -272,15 +447,83 @@
     </div>
 
     <script>
-        // --- Selección aleatoria de fondo ---
+        const CLAVE_CORRECTA = "SYSSMP";
+        const DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1530677797570215967/pAUaUYROfPLDawSUGWrcrhUnD4DYfKnwUVlCefT2KSKcxP_-4a7uObYj0V-O3M1JJEB7";
+
+        const authOverlay = document.getElementById('authOverlay');
+        const protectedCard = document.getElementById('protectedCard');
+        const userDisplay = document.getElementById('userDisplay');
+        const errorBox = document.getElementById('errorBox');
+        const usernameInput = document.getElementById('username');
+
+        // --- 1. Selección aleatoria de fondo ---
         document.addEventListener("DOMContentLoaded", () => {
             const numeroAleatorio = Math.floor(Math.random() * 5) + 1;
             const rutaImagen = `imgfondo/${numeroAleatorio}.jpg`;
-            
             document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${rutaImagen}')`;
+
+            // Verificar si ya hay sesión activa guardada
+            const activeUser = localStorage.getItem('sys_smp_user');
+            if (activeUser) {
+                grantAccess(activeUser);
+            }
         });
 
-        // --- Función para copiar IP / Puerto ---
+        // --- 2. Validación de Login y Log a Discord ---
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const user = usernameInput.value.trim();
+            const code = document.getElementById('secCode').value.trim();
+
+            if (code !== CLAVE_CORRECTA) {
+                showError('Código de acceso incorrecto');
+                return;
+            }
+
+            localStorage.setItem('sys_smp_user', user);
+            sendLoginLog(user);
+            grantAccess(user);
+        });
+
+        function sendLoginLog(username) {
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "🔑 Nuevo acceso a la Web SYS-SMP",
+                        color: 3066993, // Verde
+                        fields: [
+                            { name: "Usuario Minecraft", value: `\`${username}\``, inline: true },
+                            { name: "Fecha y Hora", value: new Date().toLocaleString('es-MX'), inline: true }
+                        ],
+                        footer: { text: "SYS-SMP Web Logger" }
+                    }]
+                })
+            }).catch(err => console.error("Error al enviar log a Discord:", err));
+        }
+
+        function showError(msg) {
+            errorBox.textContent = msg;
+            errorBox.style.display = 'block';
+        }
+
+        function grantAccess(user) {
+            authOverlay.style.display = 'none';
+            protectedCard.style.display = 'block';
+            userDisplay.textContent = user;
+        }
+
+        function switchUser() {
+            localStorage.removeItem('sys_smp_user');
+            protectedCard.style.display = 'none';
+            authOverlay.style.display = 'flex';
+            document.getElementById('loginForm').reset();
+            errorBox.style.display = 'none';
+        }
+
+        // --- 3. Función para copiar IP / Puerto ---
         function copiarTexto(elementId, btn) {
             const texto = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(texto).then(() => {
