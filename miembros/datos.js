@@ -7,7 +7,7 @@ const listaMiembros = [
         tiempoMiembro: "Hace 5 años",
         tiempoJuego: "5 años en Minecraft / 2 en CITYSPOKY",
         expertoEn: "⚡ DECORADOR Y SUPERVIVENCIA",
-        foto: "fotos/ELIEZER.jpg", // <-- Ruta simplificada
+        foto: "fotos/eliezer.jpg", // <-- Ruta simplificada
         descripcion: "Jugador enfocado en  decoracion y recolección de recursos para la comunidad.",
         experiencias: "miembro destacado en la construcción de estructuras y paisajes."
     },
