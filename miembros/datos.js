@@ -10,7 +10,7 @@ const listaMiembros = [
         foto: "fotos/kike2901.jpg",
         descripcion: "Líder principal del clan y Administrador tanto del antiguo servidor CITYSPOKY como del actual Stone & Steel. Encargado de coordinar y mantener la comunidad.",
         experiencias: "Especialista en PvP, construcción de mecanismos gigantes con Redstone y diseño técnico avanzado de granjas y automatizaciones."
-    }
+    },
     {
         id: "eliezer12",
         gamertag: "@YAMOSSHIJ2",
@@ -46,7 +46,7 @@ const listaMiembros = [
         foto: "fotos/Gaby0228.jpg",
         descripcion: "Integrante del clan del admin (Kike) y su fiel compañera de aventuras.",
         experiencias: "Experta en diseño de interiores, paisajismo y recolección de materiales para el grupo."
-    }
+    },
     {
         id: "williamcraft",
         gamertag: "Williamcraft382",
