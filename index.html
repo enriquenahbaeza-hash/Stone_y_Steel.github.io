@@ -29,6 +29,14 @@
             transition: background-image 0.5s ease-in-out;
         }
 
+        /* Regla de seguridad para evitar que imágenes o celdas deformen el diseño */
+        img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
         /* --- OVERLAY DE LOGIN --- */
         #authOverlay {
             position: fixed;
@@ -398,10 +406,10 @@
 
         <!-- Botones Superiores de Navegación -->
         <nav class="top-nav">
-            <a href="#recuerdos" class="nav-btn">📸 Recuerdos</a>
-            <a href="#eventos" class="nav-btn">📅 Eventos</a>
+            <a href="recuerdos/recuerdos.html" class="nav-btn">📸 Recuerdos</a>
+            <a href="eventos/eventos.html" class="nav-btn">📅 Eventos</a>
             <a href="miembros/miembros.html" class="nav-btn">👥 Miembros</a>
-            <a href="#ubicaciones" class="nav-btn">📍 Ubicaciones</a>
+            <a href="ubicaciones/ubicaciones.html" class="nav-btn">📍 Ubicaciones</a>
         </nav>
 
         <!-- Badge Informativo -->
@@ -449,6 +457,9 @@
     <script>
         const CLAVE_CORRECTA = "SYSSMP";
         const DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1530677797570215967/pAUaUYROfPLDawSUGWrcrhUnD4DYfKnwUVlCefT2KSKcxP_-4a7uObYj0V-O3M1JJEB7";
+        
+        // Ruta de la imagen por defecto/fallback
+        const IMAGEN_FALLBACK = "imgfondo/default.jpg"; 
 
         const authOverlay = document.getElementById('authOverlay');
         const protectedCard = document.getElementById('protectedCard');
@@ -456,11 +467,38 @@
         const errorBox = document.getElementById('errorBox');
         const usernameInput = document.getElementById('username');
 
-        // --- 1. Selección aleatoria de fondo ---
+        // --- 1. Selección aleatoria de fondo & Gestión global de Imágenes ---
         document.addEventListener("DOMContentLoaded", () => {
+            // A) Carga aleatoria de fondo con fallback seguro
             const numeroAleatorio = Math.floor(Math.random() * 5) + 1;
             const rutaImagen = `imgfondo/${numeroAleatorio}.jpg`;
-            document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${rutaImagen}')`;
+            
+            const imgBgTemp = new Image();
+            imgBgTemp.src = rutaImagen;
+
+            imgBgTemp.onload = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${rutaImagen}')`;
+            };
+
+            imgBgTemp.onerror = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${IMAGEN_FALLBACK}')`;
+            };
+
+            // B) Manejo automático de celdas o imágenes sin subir / rotas
+            const todasLasImagenes = document.querySelectorAll('img');
+            todasLasImagenes.forEach(img => {
+                // Si la etiqueta img tiene el atributo src vacío o no existe
+                if (!img.getAttribute('src') || img.getAttribute('src').trim() === '') {
+                    img.src = IMAGEN_FALLBACK;
+                }
+
+                // Si la imagen falla al cargar (error 404)
+                img.addEventListener('error', function() {
+                    this.onerror = null; // Evita bucles infinitos
+                    this.src = IMAGEN_FALLBACK;
+                    this.alt = 'Imagen no disponible';
+                });
+            });
 
             // Verificar si ya hay sesión activa guardada
             const activeUser = localStorage.getItem('sys_smp_user');
