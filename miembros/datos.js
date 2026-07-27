@@ -12,14 +12,14 @@ const listaMiembros = [
         experiencias: "Especialista en PvP, construcción de mecanismos gigantes con Redstone y diseño técnico avanzado de granjas y automatizaciones."
     },
     {
-        id: "eliezer12",
+        id: "eliezer",
         gamertag: "@YAMOSSHIJ2",
         nombreReal: "ELIEZER",
         rango: "🗡️ Miembro",
         tiempoMiembro: "Desde el origen (2021)",
         tiempoJuego: "5 años en Minecraft / 2 en CITYSPOKY",
         expertoEn: "⚡ DECORADOR Y SUPERVIVENCIA",
-        foto: "fotos/Yamosshij2.jpg", // <-- Ruta simplificada
+        foto: "fotos/eliezer.jpg", // <-- Ruta simplificada
         descripcion: "Jugador enfocado en  decoracion y recolección de recursos para la comunidad.",
         experiencias: "miembro destacado en la construcción de estructuras y paisajes."
     },
