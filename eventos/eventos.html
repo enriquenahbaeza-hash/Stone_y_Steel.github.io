@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos | SYS-SMP</title>
+    <!-- Fuente moderna estilo Gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #0d1219;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .card {
+            background: rgba(22, 32, 45, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- Menú de Navegación Superior Estilo Miembros --- */
+        .top-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 8px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+            color: #2ecc71;
+        }
+
+        .btn-inicio {
+            grid-column: 1 / -1;
+            background: rgba(46, 204, 113, 0.15);
+            border-color: rgba(46, 204, 113, 0.4);
+            color: #2ecc71;
+        }
+
+        .btn-inicio:hover {
+            background: #2ecc71;
+            color: #000;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #2ecc71, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: #a0aec0;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        /* --- Estilos de la Lista de Eventos --- */
+        .events-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .event-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .event-card:hover {
+            border-color: rgba(46, 204, 113, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .event-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .event-status {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-proximo {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+
+        .status-pasado {
+            background: rgba(113, 128, 150, 0.2);
+            color: #a0aec0;
+            border: 1px solid rgba(113, 128, 150, 0.3);
+        }
+
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #e2e8f0;
+        }
+
+        .meta-item span.highlight {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+
+        .event-description {
+            font-size: 0.88rem;
+            color: #a0aec0;
+            line-height: 1.4;
+        }
+
+        .btn-back {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.2s ease;
+            display: block;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Menú de Navegación Igual al de Miembros -->
+        <nav class="top-nav">
+            <a href="../index.html" class="nav-btn btn-inicio">🏠 Inicio</a>
+            <a href="../recuerdos/recuerdos.html" class="nav-btn">📸 Recuerdos</a>
+            <a href="../miembros/miembros.html" class="nav-btn">👥 Miembros</a>
+            <a href="../ubicaciones/ubicaciones.html" class="nav-btn">📍 Ubicaciones</a>
+        </nav>
+
+        <span class="badge">📅 Calendario de Eventos</span>
+
+        <h1>Eventos del Servidor</h1>
+        <p class="subtitle">¡Entérate de los próximos eventos, fechas y coordenadas!</p>
+
+        <!-- Contenedor donde se insertarán los eventos de eventos.js -->
+        <div class="events-container" id="events-list"></div>
+
+        <a href="../index.html" class="btn-back">⬅️ Volver al Inicio</a>
+    </div>
+
+    <!-- Carga tu archivo eventos.js intacto -->
+    <script src="eventos.js"></script>
+
+    <!-- Script en HTML para asignar fondo aleatorio seguro y renderizar el array 'eventos' -->
+    <script>
+        const IMAGEN_FALLBACK = '../imgfondo/default.jpg';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Fondo aleatorio desde la carpeta raíz imgfondo/ con fallback seguro
+            const numeroAleatorio = Math.floor(Math.random() * 5) + 1;
+            const rutaImagen = `../imgfondo/${numeroAleatorio}.jpg`;
+
+            const imgBgTemp = new Image();
+            imgBgTemp.src = rutaImagen;
+
+            imgBgTemp.onload = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${rutaImagen}')`;
+            };
+
+            imgBgTemp.onerror = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${IMAGEN_FALLBACK}')`;
+            };
+
+            // Renderizado de eventos tomando los datos directamente del arreglo 'eventos' de eventos.js
+            const container = document.getElementById("events-list");
+            if (typeof eventos !== 'undefined' && container) {
+                container.innerHTML = "";
+                
+                if (eventos.length === 0) {
+                    container.innerHTML = `<p style="text-align:center; color:#a0aec0; padding:15px;">No hay eventos registrados por ahora.</p>`;
+                    return;
+                }
+
+                eventos.forEach(evt => {
+                    const statusText = evt.estado === "proximo" ? "Próximo" : "Finalizado";
+                    const statusClass = evt.estado === "proximo" ? "status-proximo" : "status-pasado";
+
+                    const card = document.createElement("div");
+                    card.className = "event-card";
+                    card.innerHTML = `
+                        <div class="event-header">
+                            <span class="event-title">${evt.titulo}</span>
+                            <span class="event-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <span>📅 <b>Día:</b></span>
+                                <span class="highlight">${evt.dia} (${evt.hora})</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📍 <b>Lugar / Coor:</b></span>
+                                <span class="highlight">${evt.lugar}</span>
+                            </div>
+                        </div>
+                        <p class="event-description">${evt.descripcion}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

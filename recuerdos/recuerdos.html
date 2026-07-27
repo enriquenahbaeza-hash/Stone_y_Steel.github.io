@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuerdos | SYS-SMP</title>
+    <!-- Fuente moderna estilo Gaming -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: #0d1219;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .card {
+            background: rgba(22, 32, 45, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- Menú de Navegación Superior Estilo Miembros --- */
+        .top-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 8px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+            color: #2ecc71;
+        }
+
+        .btn-inicio {
+            grid-column: 1 / -1;
+            background: rgba(46, 204, 113, 0.15);
+            border-color: rgba(46, 204, 113, 0.4);
+            color: #2ecc71;
+        }
+
+        .btn-inicio:hover {
+            background: #2ecc71;
+            color: #000;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #2ecc71, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: #a0aec0;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        /* --- Selector Desplegable de Años --- */
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            color: #a0aec0;
+            font-weight: 600;
+        }
+
+        .select-year {
+            background: #16202d;
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .select-year:hover {
+            border-color: #2ecc71;
+            background: #1f2b3c;
+        }
+
+        /* --- Estilos de las Tarjetas de Recuerdos --- */
+        .memories-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .memory-card {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .memory-card:hover {
+            border-color: rgba(46, 204, 113, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .memory-img {
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .memory-body {
+            padding: 16px;
+        }
+
+        .memory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .memory-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .memory-date {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2ecc71;
+            background: rgba(46, 204, 113, 0.12);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+
+        .memory-desc {
+            font-size: 0.88rem;
+            color: #a0aec0;
+            line-height: 1.4;
+            margin-bottom: 14px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-download:hover {
+            background: #2ecc71;
+            color: #000;
+        }
+
+        .btn-back {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.2s ease;
+            display: block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Navegación idéntica a la de Miembros -->
+        <nav class="top-nav">
+            <a href="../index.html" class="nav-btn btn-inicio">🏠 Inicio</a>
+            <a href="../eventos/eventos.html" class="nav-btn">📅 Eventos</a>
+            <a href="../miembros/miembros.html" class="nav-btn">👥 Miembros</a>
+            <a href="../ubicaciones/ubicaciones.html" class="nav-btn">📍 Ubicaciones</a>
+        </nav>
+
+        <span class="badge">📸 Galería del Server</span>
+
+        <h1>Recuerdos</h1>
+        <p class="subtitle">Capturas y momentos inolvidables en SYS-SMP</p>
+
+        <!-- Filtro por Año -->
+        <div class="filter-container">
+            <span class="filter-label">📅 Filtrar por año:</span>
+            <select id="select-year" class="select-year">
+                <option value="todos">Todos los años</option>
+            </select>
+        </div>
+
+        <!-- Contenedor dinámico de Recuerdos -->
+        <div class="memories-container" id="memories-list"></div>
+
+        <a href="../index.html" class="btn-back">⬅️ Volver al Inicio</a>
+    </div>
+
+    <!-- Carga del archivo de datos -->
+    <script src="recuerdos.js"></script>
+
+    <script>
+        const IMAGEN_FALLBACK = '../imgfondo/default.jpg';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Fondo aleatorio desde imgfondo con fallback seguro
+            const num = Math.floor(Math.random() * 5) + 1;
+            const rutaBg = `../imgfondo/${num}.jpg`;
+
+            const imgBgTemp = new Image();
+            imgBgTemp.src = rutaBg;
+
+            imgBgTemp.onload = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${rutaBg}')`;
+            };
+
+            imgBgTemp.onerror = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${IMAGEN_FALLBACK}')`;
+            };
+
+            const container = document.getElementById("memories-list");
+            const selectYear = document.getElementById("select-year");
+
+            if (typeof recuerdos !== 'undefined' && container && selectYear) {
+
+                // 1. Ordenar por fecha (de la más reciente a la más antigua)
+                recuerdos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+                // 2. Definir lista base de años desde 2020 hasta 2026
+                const listaAnosBase = [2026, 2025, 2024, 2023, 2022, 2021, 2020];
+                const anosEnDatos = recuerdos.map(r => new Date(r.fecha).getFullYear());
+                
+                // Combinar lista base con cualquier año que tengan tus datos y eliminar duplicados
+                const todosAnos = [...new Set([...listaAnosBase, ...anosEnDatos])].sort((a, b) => b - a);
+
+                todosAnos.forEach(ano => {
+                    const opt = document.createElement("option");
+                    opt.value = ano;
+                    opt.textContent = ano;
+                    selectYear.appendChild(opt);
+                });
+
+                // 3. Renderizar recuerdos
+                function renderizarRecuerdos(yearFilter) {
+                    container.innerHTML = "";
+
+                    const filtrados = yearFilter === "todos" 
+                        ? recuerdos 
+                        : recuerdos.filter(r => new Date(r.fecha).getFullYear().toString() === yearFilter);
+
+                    if (filtrados.length === 0) {
+                        container.innerHTML = `<p style="text-align:center; color:#a0aec0; padding:15px;">No hay fotos registradas para este año.</p>`;
+                        return;
+                    }
+
+                    filtrados.forEach(item => {
+                        // Verificar si la imagen tiene ruta especificada
+                        const rutaImg = (item.imagen && item.imagen.trim() !== '') ? item.imagen : IMAGEN_FALLBACK;
+
+                        const card = document.createElement("div");
+                        card.className = "memory-card";
+                        card.innerHTML = `
+                            <img class="memory-img" 
+                                 src="${rutaImg}" 
+                                 alt="${item.titulo}" 
+                                 onerror="this.onerror=null; this.src='${IMAGEN_FALLBACK}';">
+                            <div class="memory-body">
+                                <div class="memory-header">
+                                    <span class="memory-title">${item.titulo}</span>
+                                    <span class="memory-date">🗓️ ${item.fechaTexto || item.fecha}</span>
+                                </div>
+                                <p class="memory-desc">${item.descripcion}</p>
+                                
+                                <a href="${rutaImg}" download="${item.titulo}.jpg" class="btn-download">
+                                    📥 Descargar Foto
+                                </a>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                }
+
+                // Render inicial
+                renderizarRecuerdos("todos");
+
+                // Escuchar cambios del selector de año
+                selectYear.addEventListener("change", (e) => {
+                    renderizarRecuerdos(e.target.value);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

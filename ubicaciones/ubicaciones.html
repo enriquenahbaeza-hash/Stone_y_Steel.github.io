@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYS-SMP | Ubicación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body {
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            background-attachment: fixed; background-color: #0d1219; color: #ffffff;
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+            transition: background-image 0.5s ease-in-out;
+        }
+        .card {
+            background: rgba(22, 32, 45, 0.85); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            padding: 30px 25px; max-width: 480px; width: 100%; text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- Menú Principal --- */
+        .top-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.06); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 8px; border-radius: 12px; font-size: 0.82rem; font-weight: 600;
+            text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px;
+            transition: all 0.25s ease;
+        }
+        .nav-btn:hover { background: rgba(46, 204, 113, 0.2); border-color: #2ecc71; color: #2ecc71; }
+        .btn-inicio { grid-column: 1 / -1; background: rgba(46, 204, 113, 0.15); border-color: rgba(46, 204, 113, 0.4); color: #2ecc71; }
+        .btn-inicio:hover { background: #2ecc71; color: #000; }
+
+        .badge {
+            padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            display: inline-block; margin-bottom: 12px; background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 6px; background: linear-gradient(135deg, #2ecc71, #1abc9c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.subtitle { color: #a0aec0; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        /* --- Botones de Selector de Dimensión --- */
+        .dimension-tabs {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px;
+        }
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05); color: #a0aec0; border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 5px; border-radius: 10px; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; transition: all 0.25s ease;
+        }
+        .tab-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+        
+        /* Estilos de botones activos */
+        .tab-btn.active-overworld { background: rgba(46, 204, 113, 0.2); border-color: #2ecc71; color: #2ecc71; }
+        .tab-btn.active-nether { background: rgba(231, 76, 60, 0.2); border-color: #e74c3c; color: #e74c3c; }
+        .tab-btn.active-end { background: rgba(155, 89, 182, 0.2); border-color: #9b59b6; color: #9b59b6; }
+
+        .locations-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        /* --- Tarjeta de Ubicación --- */
+        .location-card {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px; padding: 12px; text-align: left;
+            display: flex; gap: 12px; align-items: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .location-card:hover { border-color: rgba(46, 204, 113, 0.4); transform: translateY(-2px); }
+        
+        .location-thumb {
+            width: 75px; height: 75px; border-radius: 12px; object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.2); cursor: pointer;
+            transition: transform 0.2s ease; flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .location-thumb:hover { transform: scale(1.05); border-color: #2ecc71; }
+
+        .location-details { flex-grow: 1; }
+        .location-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .location-name { font-weight: 700; font-size: 0.95rem; color: #f1f5f9; }
+        
+        .location-coords { font-family: monospace; font-size: 0.82rem; color: #cbd5e0; background: rgba(0, 0, 0, 0.25); padding: 3px 6px; border-radius: 6px; }
+        .btn-action { background: rgba(255, 255, 255, 0.08); color: #fff; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.78rem; transition: all 0.2s ease; }
+        .btn-action:hover { background: #2ecc71; color: #000; }
+
+        /* --- Modal --- */
+        .modal {
+            display: none; position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content {
+            background: #16202d; border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px; max-width: 440px; width: 100%; overflow: hidden;
+            text-align: left; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative;
+        }
+        .modal-img { width: 100%; height: 220px; object-fit: cover; background-color: rgba(0, 0, 0, 0.4); }
+        .modal-body { padding: 18px; }
+        .modal-title { font-size: 1.3rem; font-weight: 800; color: #2ecc71; margin-bottom: 6px; }
+        .modal-desc { font-size: 0.85rem; color: #cbd5e0; margin-bottom: 12px; line-height: 1.4; }
+        .modal-builders { font-size: 0.8rem; color: #a0aec0; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; }
+        .modal-builders span { color: #ffffff; font-weight: 600; }
+        .close-modal {
+            position: absolute; top: 10px; right: 12px; background: rgba(0,0,0,0.6); color: #fff;
+            border: none; font-size: 1.2rem; width: 30px; height: 30px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .close-modal:hover { background: #e74c3c; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Navegación de páginas -->
+        <nav class="top-nav">
+            <a href="../index.html" class="nav-btn btn-inicio">🏠 Inicio</a>
+            <a href="../recuerdos/recuerdos.html" class="nav-btn">📸 Recuerdos</a>
+            <a href="../eventos/eventos.html" class="nav-btn">📅 Eventos</a>
+            <a href="../miembros/miembros.html" class="nav-btn">👥 Miembros</a>
+        </nav>
+
+        <span class="badge">📍 Coordenadas SYS-SMP</span>
+        <h1>📍 Ubicación</h1>
+        <p class="subtitle">Selecciona una dimensión para ver sus lugares</p>
+
+        <!-- Botones de Selector de Dimensión -->
+        <div class="dimension-tabs">
+            <button class="tab-btn active-overworld" id="btn-overworld" onclick="cambiarDimension('overworld')">🌿 Overworld</button>
+            <button class="tab-btn" id="btn-nether" onclick="cambiarDimension('nether')">🔥 Nether</button>
+            <button class="tab-btn" id="btn-end" onclick="cambiarDimension('end')">🔮 The End</button>
+        </div>
+
+        <!-- Lista Dinámica de Ubicaciones -->
+        <div class="locations-list" id="contenedor-ubicaciones"></div>
+    </div>
+
+    <!-- Modal Flotante -->
+    <div id="modal-foto" class="modal" onclick="cerrarModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="cerrarModalDirecto()">✕</button>
+            <img id="modal-img" class="modal-img" src="" alt="Vista Previa" onerror="this.onerror=null; this.src='../imgfondo/default.jpg';">
+            <div class="modal-body">
+                <div id="modal-title" class="modal-title"></div>
+                <div id="modal-desc" class="modal-desc"></div>
+                <div id="modal-builders" class="modal-builders"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga de datos JS local -->
+    <script src="ubicaciones.js"></script>
+    <script>
+        let dimensionActual = 'overworld';
+        const IMAGEN_FALLBACK = '../imgfondo/default.jpg';
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Fondo aleatorio con fallback de seguridad
+            const num = Math.floor(Math.random() * 5) + 1;
+            const rutaImagen = `../imgfondo/${num}.jpg`;
+            
+            const imgBgTemp = new Image();
+            imgBgTemp.src = rutaImagen;
+
+            imgBgTemp.onload = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${rutaImagen}')`;
+            };
+
+            imgBgTemp.onerror = () => {
+                document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${IMAGEN_FALLBACK}')`;
+            };
+
+            // Mostrar el Overworld al cargar
+            cambiarDimension('overworld');
+        });
+
+        function cambiarDimension(dimension) {
+            dimensionActual = dimension;
+            
+            // Actualizar clase de los botones
+            const btnOver = document.getElementById('btn-overworld');
+            const btnNether = document.getElementById('btn-nether');
+            const btnEnd = document.getElementById('btn-end');
+
+            btnOver.className = 'tab-btn' + (dimension === 'overworld' ? ' active-overworld' : '');
+            btnNether.className = 'tab-btn' + (dimension === 'nether' ? ' active-nether' : '');
+            btnEnd.className = 'tab-btn' + (dimension === 'end' ? ' active-end' : '');
+
+            // Obtener lista correspondiente
+            let lista = [];
+            if (dimension === 'overworld') lista = mundoOverworld;
+            else if (dimension === 'nether') lista = mundoNether;
+            else if (dimension === 'end') lista = mundoEnd;
+
+            // Renderizar la lista
+            const contenedor = document.getElementById("contenedor-ubicaciones");
+            if (!lista || lista.length === 0) {
+                contenedor.innerHTML = `<p style="color: #a0aec0; font-size: 0.85rem; padding: 15px;">No hay lugares registrados en esta dimensión.</p>`;
+                return;
+            }
+
+            contenedor.innerHTML = lista.map((u, index) => {
+                // Verificar si u.foto está definida y no está vacía
+                const rutaFoto = (u.foto && u.foto.trim() !== '') ? u.foto : IMAGEN_FALLBACK;
+
+                return `
+                    <div class="location-card">
+                        <img class="location-thumb" 
+                             src="${rutaFoto}" 
+                             alt="${u.nombre}" 
+                             onerror="this.onerror=null; this.src='${IMAGEN_FALLBACK}'" 
+                             onclick="abrirModal(${index})">
+                        <div class="location-details">
+                            <div class="location-header">
+                                <span class="location-name">${u.nombre}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                                <span class="location-coords" id="coords-${index}">${u.coords}</span>
+                                <button class="btn-action" onclick="copiarTexto('coords-${index}', this)">Copiar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function copiarTexto(elementId, btn) {
+            const texto = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(texto).then(() => {
+                const textoOriginal = btn.innerText;
+                btn.innerText = '¡Copiado!';
+                btn.style.background = '#2ecc71';
+                btn.style.color = '#000';
+
+                setTimeout(() => {
+                    btn.innerText = textoOriginal;
+                    btn.style.background = 'rgba(255, 255, 255, 0.08)';
+                    btn.style.color = '#fff';
+                }, 2000);
+            });
+        }
+
+        function abrirModal(index) {
+            let u;
+            if (dimensionActual === 'overworld') u = mundoOverworld[index];
+            else if (dimensionActual === 'nether') u = mundoNether[index];
+            else if (dimensionActual === 'end') u = mundoEnd[index];
+
+            if (!u) return;
+
+            const modalImg = document.getElementById('modal-img');
+            modalImg.src = (u.foto && u.foto.trim() !== '') ? u.foto : IMAGEN_FALLBACK;
+            
+            document.getElementById('modal-title').innerText = u.nombre;
+            document.getElementById('modal-desc').innerText = u.descripcion || 'Sin descripción disponible.';
+            
+            const constructores = u.constructores && u.constructores.length > 0 
+                ? u.constructores.join(', ') 
+                : 'Comunidad';
+            
+            document.getElementById('modal-builders').innerHTML = `🔨 <b>Trabajado por:</b> <span>${constructores}</span>`;
+            document.getElementById('modal-foto').style.display = 'flex';
+        }
+
+        function cerrarModal(e) {
+            if (e.target.id === 'modal-foto') {
+                document.getElementById('modal-foto').style.display = 'none';
+            }
+        }
+
+        function cerrarModalDirecto() {
+            document.getElementById('modal-foto').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
